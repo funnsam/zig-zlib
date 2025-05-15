@@ -65,7 +65,7 @@ fn zalloc(private: ?*anyopaque, items: c_uint, size: c_uint) callconv(.C) ?*anyo
         return null;
 
     const allocator: *Allocator = @ptrCast(@alignCast(private.?));
-    var buf = allocator.allocWithOptions(u8, ZallocHeader.size_of_aligned + (items * size), @alignOf(*ZallocHeader), null) catch return null;
+    var buf = allocator.allocWithOptions(u8, ZallocHeader.size_of_aligned + (items * size), std.mem.Alignment.of(*ZallocHeader), null) catch return null;
     const header: *ZallocHeader = @ptrCast(@alignCast(buf.ptr));
     header.* = .{
         .magic = magic_value,
