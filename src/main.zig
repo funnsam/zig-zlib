@@ -423,6 +423,7 @@ pub const Decompressor = struct {
 
         var tail_appended = false;
         var tmp = try self.allocator.alloc(u8, chunk_size);
+        @memset(tmp, 0);
         var len: usize = 0; // inflated part of the tmp buffer
         while (true) {
             const out = tmp[len..];
@@ -430,6 +431,16 @@ pub const Decompressor = struct {
             self.stream.avail_out = @as(c_uint, @intCast(out.len));
 
             const rc = c.inflate(self.stream, c.Z_SYNC_FLUSH);
+
+            if (rc == c.Z_STREAM_END) {
+                const reset_result = c.inflateReset(self.stream);
+                if (reset_result != c.Z_OK) {
+                    std.debug.print("Failed to reset inflate stream: {}\n", .{reset_result});
+                    return errorFromInt(reset_result);
+                }
+                continue;
+            }
+
             if (rc != c.Z_OK and rc != c.Z_STREAM_END) {
                 return errorFromInt(rc);
             }
