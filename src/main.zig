@@ -60,7 +60,7 @@ comptime {
     }
 }
 
-fn zalloc(private: ?*anyopaque, items: c_uint, size: c_uint) callconv(.C) ?*anyopaque {
+fn zalloc(private: ?*anyopaque, items: c_uint, size: c_uint) callconv(.c) ?*anyopaque {
     if (private == null)
         return null;
 

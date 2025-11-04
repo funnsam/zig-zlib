@@ -1,6 +1,7 @@
 .{
-    .name = "zlib",
+    .name = .zlib,
     .version = "0.1.0",
+    .fingerprint = 0x73887d3a50c9cad0,
     .dependencies = .{},
     .paths = .{
         "readme.md",
