@@ -75,7 +75,7 @@ fn zalloc(private: ?*anyopaque, items: c_uint, size: c_uint) callconv(.c) ?*anyo
     return buf[ZallocHeader.size_of_aligned..].ptr;
 }
 
-fn zfree(private: ?*anyopaque, addr: ?*anyopaque) callconv(.C) void {
+fn zfree(private: ?*anyopaque, addr: ?*anyopaque) callconv(.c) void {
     if (private == null)
         return;
 
